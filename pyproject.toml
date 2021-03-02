@@ -12,6 +12,7 @@ pyspark = "2.4.7"
 pytest = "6.2.2"
 flake8 = "3.8.4"
 black = "20.8b1"
+rope = "^0.18.0"
 
 [tool.poetry.scripts]
 homework = 'homework.main:run'
