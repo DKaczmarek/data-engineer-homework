@@ -2,6 +2,8 @@ import argparse
 
 from homework.common.config import init_configuration
 from homework.common.spark import init_spark_session
+from homework.common.logger import ModuleLogger
+from homework.etl.driver import ETLDriver
 
 
 def parse_input_arguments():
@@ -31,4 +33,6 @@ def run():
     arguments = parse_input_arguments()
     init_configuration(arguments)
     spark = init_spark_session(arguments)
-
+    ModuleLogger.init()
+    ETLDriver(spark).run()
+    spark.stop()
