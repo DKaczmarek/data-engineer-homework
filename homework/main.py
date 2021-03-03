@@ -36,3 +36,7 @@ def run():
     ModuleLogger.init()
     ETLDriver(spark).run()
     spark.stop()
+
+
+if __name__ == "__main__":
+    run()
