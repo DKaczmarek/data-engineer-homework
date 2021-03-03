@@ -10,7 +10,7 @@ The Data Engineer homework is solution for automatic preprocessing of *homework*
 
 ### Prerequisites
 
-To run the project on local machine, Python programming language will be required along with **Apache Spark** installed and all dependencies it requires to work.
+To run the project on local machine, Python programming language will be required along with **Apache Spark** installed with all dependencies it requires to work.
 
 Project environment:
 
@@ -18,7 +18,7 @@ Project environment:
 - Apache Spark 2.4.7
 - \>= Python 3.6.13
 
-In case, you're insterested in running app from `spark-submit` then you can skip this step.
+In case, you're insterested in running app by `spark-submit` only, then you can skip this step.
 
 ## Install & Run
 
@@ -93,7 +93,7 @@ Example (remote yarn cluster):
 spark-submit --master yarn \
              --deploy-mode cluster \
              --conf "spark.executor.memory=8G" \
-             ...
+             #... 
              --conf "spark.driver.memory=8G" \
              --py-files ./job/homework.zip \
              ./job/main.py \
