@@ -8,9 +8,6 @@ from homework.etl.transformers import functions as func
 from homework.common.logger import ModuleLogger
 
 
-import time
-
-
 class DataTransformer(ABC):
     @abstractmethod
     def transform(self, data: DataFrame) -> DataFrame:
@@ -93,9 +90,7 @@ class ArticleWikisVisitTransformer(DataTransformer):
         )
 
     def reduce_users_events(self, input_data: DataFrame) -> DataFrame:
-        return input_data.drop_duplicates(
-            ["user_id", "first_event", "last_event"]
-        )
+        return input_data.drop_duplicates(["user_id", "first_event", "last_event"])
 
     def finalize(self, input_data: DataFrame) -> DataFrame:
         self._log_info("finalize data")
