@@ -29,9 +29,10 @@ def example_data(session: SparkSession) -> DataFrame:
 
 def test_count_user_events(example_data: DataFrame):
     expected_output = [21, 31, 24, 24]
+    tested_function = functions.count_user_events("user")
 
     actual_output = (
-        example_data.withColumn("count", functions.count_user_events("user"))
+        example_data.withColumn("count", tested_function)
         .select("user", "count")
         .distinct()
         .select("count")
@@ -44,10 +45,11 @@ def test_count_user_events(example_data: DataFrame):
 
 def test_first_user_event_value(session: SparkSession, example_data: DataFrame):
     expected_output = [93, 71, 86, 26]
+    tested_function = functions.get_first_user_event_value("value", "user")
 
     actual_output = (
         example_data.orderBy("time")
-        .withColumn("first", functions.get_first_user_event_value("value", "user"))
+        .withColumn("first", tested_function)
         .select("user", "first")
         .distinct()
         .toPandas()["first"]
@@ -59,10 +61,11 @@ def test_first_user_event_value(session: SparkSession, example_data: DataFrame):
 
 def test_last_user_event_value(session: SparkSession, example_data: DataFrame):
     expected_output = [11, 29, 71, 85]
+    tested_function = functions.get_last_user_event_value("value", "user")
 
     actual_output = (
         example_data.orderBy("time")
-        .withColumn("first", functions.get_last_user_event_value("value", "user"))
+        .withColumn("first", tested_function)
         .select("user", "first")
         .distinct()
         .toPandas()["first"]
