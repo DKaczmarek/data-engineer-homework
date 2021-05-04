@@ -6,7 +6,7 @@ from homework.common.logger import ModuleLogger
 from homework.etl.driver import ETLDriver
 
 
-def parse_input_arguments():
+def parse_input_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-i", "--input-path", type=str, required=True, help="An input file path"

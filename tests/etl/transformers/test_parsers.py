@@ -23,9 +23,9 @@ def test_tokenize_raw_events(session: SparkSession):
     expected_output = [
         "http://test.com/site", "lang", "<000>123", "id", "/param?d=11"
     ]
-
+    tested_parsers = parsers.tokenize_raw_events("rawCol")
     actual_output = (
-        example_data.withColumn("tokens", parsers.tokenize_raw_events("rawCol"))
+        example_data.withColumn("tokens", tested_parsers)
         .select("tokens")
         .head()[0]
     )
@@ -50,10 +50,10 @@ def test_parse_parameters_from_tokens(session: SparkSession):
         [""],
         None
     ]
-
+    tested_parsers = parsers.parse_parameters_from_tokens("tokenCol")
     actual_output = (
         example_data
-        .withColumn("params", parsers.parse_parameters_from_tokens("tokenCol"))
+        .withColumn("params", tested_parsers)
         .select("params").head(5)
     )
     actual_output = [el[0] for el in actual_output]
@@ -71,16 +71,15 @@ def test_timestamp_from_tokens(session: SparkSession):
             {"tokenCol": ["a", "b", None]}
         ])
     )
-
     expected_output = [
         datetime(2010, 2, 2, 12, 22, 22),
         datetime(2050, 2, 2, 0, 59, 10),
         None, None, None
     ]
-
+    tested_parsers = parsers.parse_timestamp_from_tokens("tokenCol")
     actual_output = (
         example_data
-        .withColumn("parsed", parsers.parse_timestamp_from_tokens("tokenCol"))
+        .withColumn("parsed", tested_parsers)
         .select("parsed").head(5)
     )
     actual_output = [el[0] for el in actual_output]
@@ -96,11 +95,10 @@ def test_parse_user_id_from_tokens(session: SparkSession):
             {"tokenCol": ["a", "b", "c"]}
         ])
     )
-
     expected_output = [
         "a12", "", None
     ]
-
+    tested_parsers = parsers.parse_timestamp_from_tokens("tokenCol")
     actual_output = (
         example_data
         .withColumn("parsed", parsers.parse_user_id_from_tokens("tokenCol"))
@@ -121,11 +119,11 @@ def test_parse_param_value(session: SparkSession):
             {"paramCol": []}
         ])
     )
-
     expected_output = ["11", "12", "13", None, None]
+    tested_parsers = parsers.parse_param_value("d", "paramCol")
     actual_output = (
         example_data
-        .withColumn("parsed", parsers.parse_param_value("d", "paramCol"))
+        .withColumn("parsed", tested_parsers)
         .select("parsed").head(5)
     )
     actual_output = [el[0] for el in actual_output]
@@ -133,9 +131,10 @@ def test_parse_param_value(session: SparkSession):
     assert expected_output == actual_output
 
     expected_output = ["1", "2", None, None, None]
+    tested_parsers = parsers.parse_param_value("a", "paramCol")
     actual_output = (
         example_data
-        .withColumn("parsed", parsers.parse_param_value("a", "paramCol"))
+        .withColumn("parsed", tested_parsers)
         .select("parsed").head(5)
     )
     actual_output = [el[0] for el in actual_output]
@@ -143,9 +142,10 @@ def test_parse_param_value(session: SparkSession):
     assert expected_output == actual_output
 
     expected_output = [None, None, None, None, None]
+    tested_parsers = parsers.parse_param_value("x", "paramCol")
     actual_output = (
         example_data
-        .withColumn("parsed", parsers.parse_param_value("x", "paramCol"))
+        .withColumn("parsed", tested_parsers)
         .select("parsed").head(5)
     )
     actual_output = [el[0] for el in actual_output]
