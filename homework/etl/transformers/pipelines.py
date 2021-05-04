@@ -20,7 +20,7 @@ class ArticleWikisVisitTransformer(DataTransformer):
         data = self.parse_raw_events(data)
         data = self.filter_events(data)
         data = self.create_users_profiles(data)
-        data = self.finalize(data)
+        data = self.select_and_sort(data)
         return data
 
     def parse_raw_events(self, input_data: DataFrame) -> DataFrame:
@@ -92,8 +92,8 @@ class ArticleWikisVisitTransformer(DataTransformer):
     def reduce_users_events(self, input_data: DataFrame) -> DataFrame:
         return input_data.drop_duplicates(["user_id", "first_event", "last_event"])
 
-    def finalize(self, input_data: DataFrame) -> DataFrame:
-        self._log_info("finalize data")
+    def select_and_sort(self, input_data: DataFrame) -> DataFrame:
+        self._log_info("select and sort data")
         return input_data.select("user_id", "is_same_article", "is_same_wiki").orderBy(
             "user_id", ascending=True
         )
